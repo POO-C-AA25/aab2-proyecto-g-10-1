@@ -9,18 +9,29 @@ public class DBMananger {
     private Connection conn;
 
     // Establecer conexión
-    public void conectar() throws SQLException {
-        if (conn == null || conn.isClosed()) {
-            conn = DriverManager.getConnection(URL);
+    public void conectar() {
+        try {
+            if (conn == null || conn.isClosed()) {
+                conn = DriverManager.getConnection(URL);
+                System.out.println("Conexión exitosa.");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al conectar a la base de datos: " + e.getMessage(), e);
         }
     }
 
     // Cerrar conexión
-    public void cerrar() throws SQLException {
-        if (conn != null && !conn.isClosed()) {
-            conn.close();
+    public void cerrar() {
+        try {
+            if (conn != null && !conn.isClosed()) {
+                conn.close();
+                System.out.println("Conexión cerrada correctamente.");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al cerrar la conexión: " + e.getMessage(), e);
         }
     }
+
 
     // Crear tablas si no existen
     public void crearTablas() {
@@ -29,35 +40,31 @@ public class DBMananger {
             Statement st = conn.createStatement();
 
             // Tabla Producto
-            String sqlProducto = "CREATE TABLE IF NOT EXISTS Producto (" +
+            String sqlProducto = "CREATE TABLE IF NOT EXISTS Producto (" +//metodo predertimnado por sql
                     "codigo TEXT PRIMARY KEY, " +
                     "descripcion TEXT, " +
                     "categoria TEXT, " +
                     "precioBase REAL, " +
-                    "unidadesDisponibles INTEGER, " +
+                    "unidadesDisponibles INTEGER, " +//integer = entero
                     "etiqueta TEXT, " +
                     "tipoProducto TEXT, " +           // Local, Importado, Perecible, NoPerecible
                     "paisOrigen TEXT, " +             // si es Importado
-                    "arancel REAL, " +                // si es Importado
+                    "arancel REAL, " +  // decimal              // si es Importado
                     "fechaVencimiento TEXT, " +       // si es Perecible
                     "material TEXT" +                 // si es NoPerecible
                     ")";
-            st.execute(sqlProducto);
+            st.execute(sqlProducto);//para ejecutar
 
             // Tabla Cliente
             String sqlCliente = "CREATE TABLE IF NOT EXISTS Cliente (" +
-            "id TEXT PRIMARY KEY, " +
-            "nombre TEXT, " +
-            "email TEXT, " +
-            "celular TEXT, " +
-            "ubicacion TEXT, " +
-            "tipoCliente TEXT, " +         // Natural, Empresa, ConsumidorFinal
-            "nombreContacto TEXT, " +      // solo para ClienteEmpresa
-            "estadoCivil TEXT, " +         // solo para ClientePersonaNatural
-            "claveGenerica TEXT" +         // solo para ConsumidorFinal
-            ")";
-            st.execute(sqlCliente);
-
+                    "id TEXT PRIMARY KEY, " +
+                    "nombre TEXT, " +
+                    "email TEXT, " +
+                    "celular TEXT, " +
+                    "ubicacion TEXT, " +
+                    "tipoCliente TEXT" +
+                    ")";
+            st.execute(sqlCliente);//para ejecutar 
 
             // Tabla Factura
             String sqlFactura = "CREATE TABLE IF NOT EXISTS Factura (" +
@@ -96,28 +103,29 @@ public class DBMananger {
                     ")";
             st.execute(sqlEstadistica);
 
-            st.close();
-            cerrar();
+            st.close();//se cierra el statement lo que preparamos
+            cerrar();//llama al metodo cerrar para cerrar todo
+            System.out.println("Tablas creadas correctamente.");
 
         } catch (SQLException e) {
-            throw new RuntimeException("Error al crear tablas: " + e.getMessage());
+            System.err.println("Error al crear tablas: " + e.getMessage());
         }
     }
 
 
     // Insertar Producto
-    public boolean insertarProducto(Producto p) {
+    public boolean insertarProducto(Producto p) {//paar devolver si se igreso o no se infreso v o f el cliente
         try {
             conectar();
             String sql = "INSERT INTO Producto(codigo, descripcion, categoria, precioBase, unidadesDisponibles, etiqueta, tipoProducto, paisOrigen, arancel, fechaVencimiento, material) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement ps = conn.prepareStatement(sql);
+            PreparedStatement ps = conn.prepareStatement(sql);//preparar lo que vamos a hcer
             ps.setString(1, p.getCodigoProducto());
             ps.setString(2, p.getDescripcion());
             ps.setString(3, p.getCategoria());
             ps.setDouble(4, p.getPrecioBase());
             ps.setInt(5, p.getUnidadesDisponibles());
             ps.setString(6, p.getEtiqueta());
-            ps.setString(7, p.getTipoProducto()); 
+            ps.setString(7, p.getTipoProducto());  // Nuevo método en clase padre o en subclases
 
             switch (p.getTipoProducto()) {
                 case "Importado" -> {
@@ -131,7 +139,7 @@ public class DBMananger {
                     ProductoPerecible per = (ProductoPerecible) p;
                     ps.setNull(8, Types.VARCHAR);                         // Sin país origen
                     ps.setNull(9, Types.DOUBLE);                          // Sin arancel
-                    ps.setString(10, per.getVencimiento().toString());    // Fecha como DATE a String
+                    ps.setString(10, per.getVencimiento().toString());    // Fecha como DATE
                     ps.setNull(11, Types.VARCHAR);                        // Sin material
                 }
                 case "NoPerecible" -> {
@@ -153,7 +161,8 @@ public class DBMananger {
             cerrar();
             return true;
         } catch (SQLException e) {
-            throw new RuntimeException("Error insertarProducto: " + e.getMessage());
+            System.err.println("Error insertarProducto: " + e.getMessage());
+            return false;
         }
     }
 
@@ -163,9 +172,9 @@ public class DBMananger {
 
         try {
             conectar();
-            String sql = "SELECT * FROM Producto";
+            String sql = "SELECT * FROM Producto";// sirve para seleccionar o leer toda la tabla
             PreparedStatement ps = conn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();//esto queire decri que vamos a genrrar un resultado 
 
             while (rs.next()) {
                 String tipo = rs.getString("tipoProducto");
@@ -218,7 +227,7 @@ public class DBMananger {
             ps.close();
             cerrar();
         } catch (SQLException e) {
-            throw new RuntimeException("Error al obtener productos: " + e.getMessage());
+            System.err.println("Error al obtener productos: " + e.getMessage());
         }
 
         return productos;
@@ -259,7 +268,8 @@ public class DBMananger {
             cerrar();
             return true;
         } catch (SQLException e) {
-            throw new RuntimeException("Error insertarCliente: " + e.getMessage());
+            System.err.println("Error insertarCliente: " + e.getMessage());
+            return false;
         }
     }
 
@@ -283,7 +293,8 @@ public class DBMananger {
             cerrar();
             return true;
         } catch (SQLException e) {
-            throw new RuntimeException("Error insertarFactura: " + e.getMessage());
+            System.err.println("Error insertarFactura: " + e.getMessage());
+            return false;
         }
     }
 
@@ -305,7 +316,8 @@ public class DBMananger {
             cerrar();
             return true;
         } catch (SQLException e) {
-            throw new RuntimeException("Error insertarDetalleFactura: " + e.getMessage());
+            System.err.println("Error insertarDetalleFactura: " + e.getMessage());
+            return false;
         }
     }
 
