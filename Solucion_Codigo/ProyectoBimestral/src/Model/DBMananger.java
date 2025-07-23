@@ -103,10 +103,9 @@ public class DBMananger {
 
             st.close();//se cierra el statement lo que preparamos
             cerrar();//llama al metodo cerrar para cerrar todo
-            System.out.println("Tablas creadas correctamente.");
 
         } catch (SQLException e) {
-            System.err.println("Error al crear tablas: " + e.getMessage());
+            throw new RuntimeException("Error al crear tablas: " + e.getMessage());
         }
     }
 
@@ -159,8 +158,7 @@ public class DBMananger {
             cerrar();
             return true;
         } catch (SQLException e) {
-            System.err.println("Error insertarProducto: " + e.getMessage());
-            return false;
+            throw new RuntimeException("Error insertarProducto: " + e.getMessage());
         }
     }
 
@@ -225,7 +223,7 @@ public class DBMananger {
             ps.close();
             cerrar();
         } catch (SQLException e) {
-            System.err.println("Error al obtener productos: " + e.getMessage());
+            throw new RuntimeException("Error al obtener productos: " + e.getMessage());
         }
 
         return productos;
@@ -266,8 +264,7 @@ public class DBMananger {
             cerrar();
             return true;
         } catch (SQLException e) {
-            System.err.println("Error insertarCliente: " + e.getMessage());
-            return false;
+            throw new RuntimeException("Error insertarCliente: " + e.getMessage());
         }
     }
 
@@ -291,8 +288,7 @@ public class DBMananger {
             cerrar();
             return true;
         } catch (SQLException e) {
-            System.err.println("Error insertarFactura: " + e.getMessage());
-            return false;
+            throw new RuntimeException("Error insertarFactura: " + e.getMessage());
         }
     }
 
@@ -314,8 +310,7 @@ public class DBMananger {
             cerrar();
             return true;
         } catch (SQLException e) {
-            System.err.println("Error insertarDetalleFactura: " + e.getMessage());
-            return false;
+            throw new RuntimeException("Error insertarDetalleFactura: " + e.getMessage());
         }
     }
 
