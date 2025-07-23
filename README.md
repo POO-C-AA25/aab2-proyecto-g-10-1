@@ -14,3 +14,17 @@ ___
 
 > [!Note]
 > La fecha de presentación final de su proyecto con los apartados de: Modelado, Solución y Slides _(del UML, código, resultados)_, es en la **Semana 16** del primer bimestre. 
+___
+
+TEMA DE PROYECTOS NRO. 5: Sistema de facturación del SuperMaxi - Loja
+
+El objetivo del proyecto es desarrollar un sistema de facturación para el SuperMaxi en Loja. Este sistema deberá permitir la facturación de N productos, considerando precios normales y promocionales cuando existan muchos productos en stock o su fecha de caducidad esté próxima. Además, se deberá realizar una factura que resuma los totales de impuestos a la renta deducibles por productos en las siguientes categorías: Vivienda, Educación, Alimentación, Vestimenta y Salud. Al final del día, se generará una estadística de ventas totales, por productos y categorías, que ayudará a los gerentes del SuperMaxi en la toma de decisiones.
+
+Características por considerar:
+
+• Gestión de productos: Diseñe el modelado para agregar y gestionar productos en el sistema, considerando su cantidad en stock, fecha de caducidad y precios normales y promocionales.  
+• Facturación: Desarrollar un sistema que calcule el monto total de la factura, teniendo en cuenta los precios normales y promocionales, y que muestre un resumen de los impuestos a la renta deducibles por cada categoría de producto.  
+• Estadísticas de ventas: Generar estadísticas de ventas diarias, que incluyan las ventas totales y desgloses por productos y categorías, para tomar decisiones gerenciales.  
+• Además, el sistema deberá permitir diferenciar entre distintos tipos de productos: locales, importados, perecibles y no perecibles, considerando atributos específicos como país de origen, aranceles, materiales o fecha de vencimiento.  
+• Se deberá incluir también la gestión de diferentes tipos de clientes: Persona Natural, Persona Jurídica y Consumidor Final, cada uno con datos personalizados como nombre de contacto, estado civil y una clave genérica. El sistema calculará los valores deducibles de impuestos según la categoría de los productos adquiridos y el tipo de cliente.  
+• Se deberá incluir una opción para generar estadísticas de ventas totales, que incluyan las ventas totales y desgloses por productos y categorías, para tomar decisiones gerenciales a futuro.
