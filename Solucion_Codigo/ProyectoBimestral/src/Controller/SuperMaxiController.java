@@ -1,7 +1,6 @@
 package controller;
 
 import Model.*;
-import View.DatosPrueba;
 import java.util.ArrayList;
 
 public class SuperMaxiController {
@@ -9,9 +8,8 @@ public class SuperMaxiController {
     private DBMananger db;
     private EstadisticaVentas estadisticas;
 
-    public SuperMaxiController() {
-        db = new DBMananger();
-        db.crearTablas();  // Crear tablas en caso de no exisitir
+    public SuperMaxiController(DBMananger db) {
+        this.db = db;
         this.estadisticas = new EstadisticaVentas();
     }
 
@@ -51,21 +49,8 @@ public class SuperMaxiController {
     public String[] obtenerCategoriaMasVendida() {
         return db.obtenerCategoriaMasVendida();
     }
-    
-    public RegistroProducto obtenerProductoMasVendidoDelDia() {
-        if (estadisticas.getVentasPorProductoDiaOrdenadas().isEmpty()) return null;
 
-        RegistroProducto max = estadisticas.getVentasPorProductoDiaOrdenadas().get(0);
-        return max;
-    }
 
-    public RegistroCategoria obtenerCategoriaMasVendidoDelDia() {
-        if (estadisticas.getVentasPorCategoriaDiaOrdenadas().isEmpty()) return null;
-
-        RegistroCategoria max = estadisticas.getVentasPorCategoriaDiaOrdenadas().get(0);
-        return max;
-    }
-    
     // --------------------- FACTURAS ---------------------
 
     public Factura crearFactura(Cliente cliente) {
@@ -84,8 +69,6 @@ public class SuperMaxiController {
 
         double precioFinal = producto.calcularPrecioFinal();
         DetallesFactura detalle = new DetallesFactura(producto, cantidad, precioFinal);
-        detalle.calcularSubtotal();
-        
         factura.añadirDetalle(detalle);
 
         producto.reducirInventario(cantidad);
@@ -130,7 +113,6 @@ public class SuperMaxiController {
         if (prod == null) {
             prod = new RegistroProducto(codigo, nombre);
             estadisticas.getVentasPorProductoOrdenadas().add(prod);
-            estadisticas.getVentasPorProductoDiaOrdenadas().add(prod);
         }
         prod.unidadesVendidas += cantidad;
         prod.totalGenerado += subtotal;
@@ -139,7 +121,6 @@ public class SuperMaxiController {
         if (cat == null) {
             cat = new RegistroCategoria(categoria);
             estadisticas.getVentasPorCategoriaOrdenadas().add(cat);
-            estadisticas.getVentasPorCategoriaDiaOrdenadas().add(cat);
         }
         cat.unidadesVendidas += cantidad;
         cat.totalGenerado += subtotal;
@@ -150,23 +131,6 @@ public class SuperMaxiController {
     public ArrayList<String[]> obtenerEstadisticas() {
         return db.obtenerEstadisticas();
     }
-    
-    public ArrayList<String[]> obtenerEstadisticasDelDia() {
-        ArrayList<String[]> lista = new ArrayList<>();
-        ArrayList<RegistroProducto> ventasDelDia = estadisticas.getVentasPorProductoDiaOrdenadas();
-
-        for (RegistroProducto rp : ventasDelDia) {
-            String[] fila = {
-                rp.getCodigoProducto(),
-                rp.getNombreProducto(),
-                String.valueOf(rp.getUnidadesVendidas()),
-                String.format("%.2f", rp.getTotalGenerado())
-            };
-            lista.add(fila);
-        }
-        return lista;
-    }
-
 
 
     private RegistroProducto buscarRegistroProducto(String codigo) {
@@ -226,5 +190,5 @@ public class SuperMaxiController {
 
     public ArrayList<RegistroCategoria> obtenerVentasPorCategoria() {
         return estadisticas.getVentasPorCategoriaOrdenadas();
-    }   
+    }
 }
