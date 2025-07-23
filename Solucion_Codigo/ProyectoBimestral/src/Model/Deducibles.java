@@ -12,12 +12,12 @@ public class Deducibles {
      * y el tipo de cliente (NATURAL o EMPRESA).
      */
     public double obtenerPorcentaje(String categoria, String tipoCliente) {
-        String cat = categoria.trim().toUpperCase();
+        String cat = categoria.trim().toUpperCase();//trim=es paar quitar espacios
         String tipo = tipoCliente.trim().toUpperCase();
 
         switch (cat) {
             case "ALIMENTACION":
-                return tipo.equals("EMPRESA") ? 0.10 : 0.15;
+                return tipo.equals("EMPRESA") ? 0.10 : 0.15;//equals = comparar 
             case "EDUCACION":
                 return tipo.equals("EMPRESA") ? 0.12 : 0.20;
             case "VIVIENDA":

@@ -15,18 +15,4 @@ public class RegistroCategoria {
         this.unidadesVendidas = 0;
         this.totalGenerado = 0.0;
     }
-
-    public String getNombreCategoria() {
-        return nombreCategoria;
-    }
-
-    public int getUnidadesVendidas() {
-        return unidadesVendidas;
-    }
-
-    public double getTotalGenerado() {
-        return totalGenerado;
-    }
-    
-    
 }

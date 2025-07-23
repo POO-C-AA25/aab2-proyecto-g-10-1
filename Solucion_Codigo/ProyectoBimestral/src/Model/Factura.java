@@ -27,7 +27,8 @@ public class Factura{
         detalles.add(detalle);
     }
 
-    // Getters y Setters
+    // Getters y Setters para establecer y recuperar
+    
     public String getCodigoFactura() {
         return codigoFactura;
     }

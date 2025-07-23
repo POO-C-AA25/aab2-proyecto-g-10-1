@@ -11,10 +11,6 @@ public class EstadisticaVentas {
 
     private ArrayList<RegistroProducto> ventasPorProducto;
     private ArrayList<RegistroCategoria> ventasPorCategoria;
-    
-    // Listas temporales solo para ventas del día actual (sesión)
-    private ArrayList<RegistroProducto> ventasPorProductoDelDia = new ArrayList<>();
-    private ArrayList<RegistroCategoria> ventasPorCategoriaDelDia = new ArrayList<>();
 
     public EstadisticaVentas() {
         ventasPorProducto = new ArrayList<>();
@@ -29,15 +25,5 @@ public class EstadisticaVentas {
     public ArrayList<RegistroCategoria> getVentasPorCategoriaOrdenadas() {
         ventasPorCategoria.sort(Comparator.comparingInt(rc -> -rc.unidadesVendidas));
         return ventasPorCategoria;
-    }
-    
-    public ArrayList<RegistroProducto> getVentasPorProductoDiaOrdenadas() {
-        ventasPorProductoDelDia.sort(Comparator.comparingInt(rp -> -rp.unidadesVendidas));
-        return ventasPorProductoDelDia;
-    }
-
-    public ArrayList<RegistroCategoria> getVentasPorCategoriaDiaOrdenadas() {
-        ventasPorCategoriaDelDia.sort(Comparator.comparingInt(rc -> -rc.unidadesVendidas));
-        return ventasPorCategoriaDelDia;
     }
 }

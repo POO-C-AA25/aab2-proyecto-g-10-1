@@ -16,6 +16,7 @@ public class DetallesFactura {
         this.producto = producto;
         this.unidadesVendidas = unidadesVendidas;
         this.precioIndividual = precioIndividual;
+        calcularSubtotal();
     }
 
     // Calcula el subtotal de esta línea

@@ -17,23 +17,5 @@ public class RegistroProducto {
         this.nombreProducto = nombreProducto;
         this.unidadesVendidas = 0;
         this.totalGenerado = 0.0;
-    }
-
-    public String getCodigoProducto() {
-        return codigoProducto;
-    }
-
-    public String getNombreProducto() {
-        return nombreProducto;
-    }
-
-    public int getUnidadesVendidas() {
-        return unidadesVendidas;
-    }
-
-    public double getTotalGenerado() {
-        return totalGenerado;
-    }
-    
-    
+    }    
 }
