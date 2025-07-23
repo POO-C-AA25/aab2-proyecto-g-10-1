@@ -17,19 +17,19 @@ public class SuperMaxiView {
     }
 
     public void mostrarMenu() {
-        Scanner sc = new Scanner(System.in);
         int opcion;
         do {
-             System.out.println("\n+------------------------------------------------------+");
-            System.out.println("|              SUPERMAXI LOJA - FACTURACIÓN            |");
-            System.out.println("+------------------------------------------------------+");
-            System.out.println("| 1. Ver productos disponibles                         |");
-            System.out.println("| 2. Registrar un nuevo producto                       |");
-            System.out.println("| 3. Crear una factura                                 |");
-            System.out.println("| 4. Consultar ventas                                  |");
-            System.out.println("| 5. Buscar producto por código                        |");
-            System.out.println("| 6. Salir del sistema                                 |");
-            System.out.println("+------------------------------------------------------+");
+            Scanner sc = new Scanner(System.in);
+            System.out.println("\n+------------------------------------------------------+");
+            System.out.println("1.Mostrar Inventario");
+            System.out.println("2.Registrar Producto");
+            System.out.println("3.Gestionar Factura");
+            System.out.println("4.Mostrar Estadisticas");
+            System.out.println("5.Buscar Producto Por Codigo");
+            System.out.println("6.Salir");
+           
+            
+            // ...
             System.out.print(">> Seleccione una opción del menú: ");
             opcion = sc.nextInt();
             sc.nextLine(); // limpiar buffer
@@ -362,37 +362,11 @@ public class SuperMaxiView {
                     categoriaMasVendida[0], categoriaMasVendida[1]);
         }
     }
-    
-    private void mostrarEstadisticasDia() {
-        ArrayList<String[]> stats = controller.obtenerEstadisticasDelDia();
-        System.out.println("=== Estadísticas de Ventas ===");
-        System.out.printf("%-10s %-25s %-10s %-12s%n", "CÓDIGO", "DESCRIPCIÓN", "CANTIDAD", "TOTAL $");
-        System.out.println("------------------------------------------------------------------------------------");
-
-        for (String[] fila : stats) {
-            System.out.printf("%-10s %-25s %-10s %-12s%n",
-                    fila[0], fila[1], fila[2], fila[3]);
-        }
-
-        System.out.println("\n--- Análisis General ---");
-
-        RegistroProducto productoMasVendido = controller.obtenerProductoMasVendidoDelDia();
-        if (productoMasVendido != null) {
-            System.out.printf("Producto más vendido: %s (Código: %s) - %s unidades vendidas%n",
-                    productoMasVendido.nombreProducto, productoMasVendido.codigoProducto, productoMasVendido.unidadesVendidas);
-        }
-
-        RegistroCategoria categoriaMasVendida = controller.obtenerCategoriaMasVendidoDelDia();
-        if (categoriaMasVendida != null) {
-            System.out.printf("Categoría más vendida: %s - %s unidades vendidas - Total Generado:%.2f%n",
-                    categoriaMasVendida.nombreCategoria, categoriaMasVendida.unidadesVendidas, categoriaMasVendida.totalGenerado);
-        }
-    }
 
     
     public void salir() {
         System.out.println("Saliendo del sistema...");
-        mostrarEstadisticasDia();
+        mostrarEstadisticas();
         System.out.println("\nGracias por usar el sistema.");
     }
 }
