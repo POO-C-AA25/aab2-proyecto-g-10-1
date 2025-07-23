@@ -13,7 +13,6 @@ public class DBMananger {
         try {
             if (conn == null || conn.isClosed()) {
                 conn = DriverManager.getConnection(URL);
-                System.out.println("Conexión exitosa.");
             }
         } catch (SQLException e) {
             throw new RuntimeException("Error al conectar a la base de datos: " + e.getMessage(), e);
@@ -25,7 +24,6 @@ public class DBMananger {
         try {
             if (conn != null && !conn.isClosed()) {
                 conn.close();
-                System.out.println("Conexión cerrada correctamente.");
             }
         } catch (SQLException e) {
             throw new RuntimeException("Error al cerrar la conexión: " + e.getMessage(), e);
