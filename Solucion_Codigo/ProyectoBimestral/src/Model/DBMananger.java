@@ -117,7 +117,7 @@ public class DBMananger {
             ps.setDouble(4, p.getPrecioBase());
             ps.setInt(5, p.getUnidadesDisponibles());
             ps.setString(6, p.getEtiqueta());
-            ps.setString(7, p.getTipoProducto());  // Nuevo método en clase padre o en subclases
+            ps.setString(7, p.getTipoProducto()); 
 
             switch (p.getTipoProducto()) {
                 case "Importado" -> {
@@ -131,7 +131,7 @@ public class DBMananger {
                     ProductoPerecible per = (ProductoPerecible) p;
                     ps.setNull(8, Types.VARCHAR);                         // Sin país origen
                     ps.setNull(9, Types.DOUBLE);                          // Sin arancel
-                    ps.setString(10, per.getVencimiento().toString());    // Fecha como DATE
+                    ps.setString(10, per.getVencimiento().toString());    // Fecha como DATE a String
                     ps.setNull(11, Types.VARCHAR);                        // Sin material
                 }
                 case "NoPerecible" -> {
